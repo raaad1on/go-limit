@@ -32,13 +32,17 @@ update_yaml() {
 # Update GOMEMLIMIT (inside environment)
 update_yaml "GOMEMLIMIT" "\"${GO_LIMIT_GB}GiB\"" "      "
 
-# 3. Handle deploy section (more complex structure)
-if ! grep -q "deploy:" "$FILE"; then
-    # Add the full deploy structure after container_name line
-    perl -i -0777 -pe "s/(container_name:.*\n)/\$1    deploy:\n      resources:\n        limits:\n          memory: ${DOCKER_LIMIT_GB}G\n/" "$FILE"
-else
-    # Replace only the memory value inside deploy
+# 3. Handle deploy section
+# First, check if a valid memory line already exists inside deploy
+if perl -0777 -ne 'exit !(/deploy:.*?memory:\s*\d+G/s)' "$FILE"; then
+    # Simple case: just update the existing value
     perl -i -pe "s/(memory: )\d+G/\$1${DOCKER_LIMIT_GB}G/" "$FILE"
+else
+    # Deploy block is missing or malformed — remove it and re-add cleanly
+    # Remove any existing deploy block (from "deploy:" through deeper-indented lines)
+    perl -0777 -i -pe 's/^[ \t]*deploy:\n(?:[ \t]+.*\n)*//m' "$FILE"
+    # Insert fresh deploy block after container_name line
+    perl -0777 -i -pe "s/(container_name:.*\n)/\$1    deploy:\n      resources:\n        limits:\n          memory: ${DOCKER_LIMIT_GB}G\n/" "$FILE"
 fi
 
 # 4. Verification and restart
