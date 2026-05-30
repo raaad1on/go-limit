@@ -36,7 +36,8 @@ update_yaml "GOMEMLIMIT" "\"${GO_LIMIT_GB}GiB\"" "      "
 # First, check if a valid memory line already exists inside deploy
 if perl -0777 -ne 'exit !(/deploy:.*?memory:\s*\d+G/s)' "$FILE"; then
     # Simple case: just update the existing value
-    perl -i -pe "s/(memory: )\d+G/\$1${DOCKER_LIMIT_GB}G/" "$FILE"
+    # BUG FIX: ${1} instead of $1 to avoid perl interpreting e.g. $113 as backreference to group 113
+    perl -i -pe "s/(memory: )\d+G/\${1}${DOCKER_LIMIT_GB}G/" "$FILE"
 else
     # Deploy block is missing or malformed — remove it and re-add cleanly
     # Remove any existing deploy block (from "deploy:" through deeper-indented lines)
