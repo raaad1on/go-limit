@@ -23,18 +23,17 @@ This helps prevent out-of-memory issues while leaving enough headroom for the ho
 Run directly from GitHub — no need to clone or download anything:
 
 ```bash
-bash <(curl -s https://raw.githubusercontent.com/raaad1on/go-limit/main/set-memory-limits.sh?t=$(date +%s))
+cd /opt/remnawave
+sudo bash <(curl -s https://raw.githubusercontent.com/raaad1on/go-limit/main/set-memory-limits.sh?t=$(date +%s))
 ```
-
-Just run this in the directory that contains your `docker-compose.yml`.
 
 ## Usage (Manual)
 
 1. Place the script in the same directory as your `docker-compose.yml`:
 
    ```bash
-   cp set-memory-limits.sh /path/to/your/project/
-   cd /path/to/your/project/
+   cp set-memory-limits.sh /opt/remnawave/
+   cd /opt/remnawave
    ```
 
 2. Make the script executable:
@@ -46,7 +45,7 @@ Just run this in the directory that contains your `docker-compose.yml`.
 3. Run it:
 
    ```bash
-   ./set-memory-limits.sh
+   sudo ./set-memory-limits.sh
    ```
 
 4. The script will display the detected RAM and calculated limits, then ask whether to restart the containers.

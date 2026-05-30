@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# Require root
+if [ "$EUID" -ne 0 ]; then
+    echo "This script requires root. Re-running with sudo..."
+    exec sudo "$0" "$@"
+fi
+
 if [ -f "docker-compose.yml" ]; then
     FILE="docker-compose.yml"
 elif [ -f "compose.yml" ]; then
