@@ -34,8 +34,8 @@ update_yaml "GOMEMLIMIT" "\"${GO_LIMIT_GB}GiB\"" "      "
 
 # 3. Handle deploy section (more complex structure)
 if ! grep -q "deploy:" "$FILE"; then
-    # Add the full deploy structure if it doesn't exist
-    sed -i "/container_name:/a \    deploy:\n      resources:\n        limits:\n          memory: ${DOCKER_LIMIT_GB}G" "$FILE"
+    # Add the full deploy structure after container_name line
+    perl -i -0777 -pe "s/(container_name:.*\n)/\$1    deploy:\n      resources:\n        limits:\n          memory: ${DOCKER_LIMIT_GB}G\n/" "$FILE"
 else
     # Replace only the memory value inside deploy
     perl -i -pe "s/(memory: )\d+G/\$1${DOCKER_LIMIT_GB}G/" "$FILE"
