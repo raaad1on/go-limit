@@ -23,8 +23,7 @@ This helps prevent out-of-memory issues while leaving enough headroom for the ho
 Run directly from GitHub — no need to clone or download anything:
 
 ```bash
-cd /opt/remnanode/
-sudo bash <(curl -s https://raw.githubusercontent.com/raaad1on/go-limit/main/set-memory-limits.sh?t=$(date +%s))
+cd /opt/remnanode && curl -sSL https://raw.githubusercontent.com/raaad1on/go-limit/main/set-memory-limits.sh?t=$(date +%s) | sudo bash
 ```
 
 ## Usage (Manual)
@@ -32,8 +31,8 @@ sudo bash <(curl -s https://raw.githubusercontent.com/raaad1on/go-limit/main/set
 1. Place the script in the same directory as your `docker-compose.yml`:
 
    ```bash
-   cp set-memory-limits.sh /opt/remnawave/
-   cd /opt/remnawave
+   cp set-memory-limits.sh /opt/remnanode/
+   cd /opt/remnanode
    ```
 
 2. Make the script executable:
