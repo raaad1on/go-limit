@@ -57,7 +57,14 @@ echo -e "\nLimits written to $FILE successfully."
 echo "Applied values:"
 grep -E "memory:|GOMEMLIMIT:" "$FILE"
 
-read -p "Restart containers now? (y/n): " confirm < /dev/tty
+# When piped (curl | sudo bash), stdin is the pipe — auto-restart without prompting
+if [ -t 0 ]; then
+    read -p "Restart containers now? (y/n): " confirm
+else
+    echo "Non-interactive mode — auto-restarting containers..."
+    confirm="y"
+fi
+
 if [[ $confirm == [yY] ]]; then
     echo "Running docker compose down && up -d..."
     docker compose down && docker compose up -d
