@@ -18,7 +18,17 @@ This helps prevent out-of-memory issues while leaving enough headroom for the ho
 - **`perl`** and **`sed`** (typically pre-installed on most Linux systems)
 - A `docker-compose.yml` file in the current directory
 
-## Usage
+## Quick Start (One Command)
+
+Run directly from GitHub — no need to clone or download anything:
+
+```bash
+bash <(curl -s https://raw.githubusercontent.com/raaad1on/go-limit/main/set-memory-limits.sh)
+```
+
+Just run this in the directory that contains your `docker-compose.yml`.
+
+## Usage (Manual)
 
 1. Place the script in the same directory as your `docker-compose.yml`:
 
