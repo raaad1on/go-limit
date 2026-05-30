@@ -1,7 +1,12 @@
 #!/bin/bash
 
-FILE="docker-compose.yml"
-[ ! -f "$FILE" ] && echo "Error: File $FILE not found!" && exit 1
+if [ -f "docker-compose.yml" ]; then
+    FILE="docker-compose.yml"
+elif [ -f "compose.yml" ]; then
+    FILE="compose.yml"
+else
+    echo "Error: Neither docker-compose.yml nor compose.yml found!" && exit 1
+fi
 
 # 1. Calculations
 TOTAL_RAM_MB=$(grep MemTotal /proc/meminfo | awk '{print int($2/1024)}')
