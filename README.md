@@ -23,7 +23,7 @@ This helps prevent out-of-memory issues while leaving enough headroom for the ho
 Run directly from GitHub — no need to clone or download anything:
 
 ```bash
-cd /opt/remnawave
+cd /opt/remnanode/
 sudo bash <(curl -s https://raw.githubusercontent.com/raaad1on/go-limit/main/set-memory-limits.sh?t=$(date +%s))
 ```
 
